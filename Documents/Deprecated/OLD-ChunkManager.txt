@@ -1,0 +1,132 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using Prime31.MessageKit;
+
+public class ChunkManager : MonoBehaviour {
+
+	public static ChunkManager i;
+	public Player player;
+	public int randomSeed;
+	public Chunk chunkPrefab;
+	public float side;
+	public float maxDepth;
+	public float spawnRadius;
+	public Chunk currentChunk;
+	public Chunk originChunk;
+	public float triggerCooldown = 0.5f;
+	public List<ChunkInfo> allChunkInfo;
+
+	void Awake () {
+		i = this;
+		randomSeed = Random.Range(0, 100);
+		allChunkInfo = new List<ChunkInfo>();
+	}
+
+	// Use this for initialization
+	void Start () {
+		// listeners
+		MessageKit<ChunkInfo>.addObserver(MsgType.PlayerChangedChunk, LoadAllNeighbors);
+		// setup
+		originChunk.info = new ChunkInfo(0, 0);
+		currentChunk = originChunk;
+		currentChunk.info.obj = currentChunk;
+		allChunkInfo.Add(currentChunk.info);
+		LoadAllNeighbors(currentChunk.info);
+	}
+
+	public bool CreateChunkAt(int x, int z){
+
+		if(GetChunk(x, z) == null) {
+			ChunkInfo info = new ChunkInfo(x, z);
+			Chunk newChunk = Instantiate(chunkPrefab, new Vector3(info.worldX, 0, info.worldZ), 
+			                             Quaternion.identity) as Chunk;
+			newChunk.info = info;
+			newChunk.info.obj = newChunk;
+			if(GetChunkInfo(x, z) == null) allChunkInfo.Add(newChunk.info);
+			MessageKit.post(MsgType.ChunkCreated);
+			return true;
+		}
+		return false;
+	}
+
+	public void LoadAllNeighbors (ChunkInfo info) {
+		foreach (ChunkInfo chunk in ChunkInfo.ChunksInArea(info.gridX, info.gridZ, 1)){
+			CreateChunkAt(chunk.gridX, chunk.gridZ);
+		}
+	}
+
+	public Chunk LoadNeighbor (ChunkInfo chunk, Dir dir) {
+		print("LoadingNeighbor " + dir.ToString());
+		ChunkInfo info = new ChunkInfo(0,0);
+		Dir relative;
+		switch(dir){
+		case Dir.North : 
+			info.SetCoords(chunk.gridX, chunk.gridZ + 1);
+			relative = Dir.South;
+			break;
+		case Dir.East : 
+			info.SetCoords(chunk.gridX + 1, chunk.gridZ);
+			relative = Dir.West;
+			break;
+		case Dir.South : 
+			info.SetCoords(chunk.gridX, chunk.gridZ - 1);
+			relative = Dir.North;
+			break;
+		default : 
+			info.SetCoords(chunk.gridX - 1, chunk.gridZ);
+			relative = Dir.East;
+			break;
+		}
+		Chunk newChunk;
+		if (chunk.neighbors[(int)dir] == null) {
+			newChunk = Instantiate(chunkPrefab, new Vector3(info.worldX, 0, info.worldZ), 
+			                             Quaternion.identity) as Chunk;
+			newChunk.info = info;
+			newChunk.info.obj = newChunk;
+			allChunkInfo.Add(newChunk.info);
+			ConnectNeighbors(newChunk.info);
+		}
+		else {
+			if(chunk.neighbors[(int)dir].obj == null) {
+				newChunk = Instantiate(chunkPrefab, new Vector3(info.worldX, 0, info.worldZ), 
+				                             Quaternion.identity) as Chunk;
+				newChunk.info = info;
+				newChunk.info.obj = newChunk;
+				allChunkInfo.Add(newChunk.info);
+				ConnectNeighbors(newChunk.info);
+			}
+		}
+		newChunk = GetChunk(info.gridX, info.gridZ);
+		newChunk.gameObject.SetActive(true);
+		newChunk.transform.parent = transform;
+		return newChunk;
+	}
+
+	public Chunk GetChunk (int x, int z) {
+		ChunkInfo info = new ChunkInfo(x, z);
+		if(allChunkInfo.Find(c => c == info) == null) return null;
+		else return allChunkInfo.Find(c => c == info).obj;
+	}
+
+	public ChunkInfo GetChunkInfo (int x, int z) {
+		ChunkInfo info = new ChunkInfo(x,z);
+		return allChunkInfo.Find(c => c == info);
+	}
+
+	public void ConnectNeighbors (ChunkInfo home) {
+		ChunkInfo[] neighbors = new ChunkInfo[4];
+
+		neighbors[0] = GetChunkInfo(home.gridX, home.gridZ+1);
+		neighbors[1] = GetChunkInfo(home.gridX+1, home.gridZ);
+		neighbors[2] = GetChunkInfo(home.gridX, home.gridZ-1);
+		neighbors[3] = GetChunkInfo(home.gridX-1, home.gridZ);
+
+		for (int i = 0; i < 4; i++) {
+			if(neighbors[i] != null) {
+				neighbors[i].neighbors[ChunkInfo.GetOppositeDir(i)] = home;
+				home.neighbors[i] = neighbors[i];
+			}
+		}
+	}
+}
