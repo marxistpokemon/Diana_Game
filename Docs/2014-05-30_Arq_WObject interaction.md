@@ -1,7 +1,7 @@
 
 ### Component PlayerWorldInteraction
 
-Controls the interacton of the palyer and world objects. When it receives a ```PlayerStartAction``` event it prepares a list of all available actions and processes all inputs from there.
+Controls the interacton of the player and world objects. When it receives a ```PlayerStartAction``` event it prepares a list of all available actions and processes all inputs from there.
 
 ### List<PlayerAction> availableActions
 
@@ -32,4 +32,4 @@ Executes the action, initiating a cascade of changes across the parts involved.
 #### Cancel ()
 Stops displaying the action message to the player.
 
-### Class 
+### Class
