@@ -3,20 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Prime31.MessageKit;
 
-[System.Serializable]
-public class Slot {
-	
-	public string name;
-	public EEquipSlots pos;
-	public Equipable item;
-	public Transform root;
-
-	public Slot(EEquipSlots pPos) {
-		pos = pPos;
-		name = pPos.ToString();
-	}
-}
-
 public class Inventory : MonoBehaviour
 {
 	public static Inventory i;
@@ -39,11 +25,12 @@ public class Inventory : MonoBehaviour
 		foreach (var s in slots) {
 			s.root = transform.FindChild(s.pos.ToString());
 		}
-		//Equipable.Equip("Torch", slots[(int)EEquipSlots.RightHand]);
-		Enter("Torch");
-		Enter("Axe");
+		//Initial stuff
+		AddItem("Torch");
+		AddItem("Axe");
 	}
 
+	/*
 	void Update () { // test values
 		if(Input.GetKeyDown(KeyCode.E)) {
 			if(slots[(int)EEquipSlots.RightHand].item != null){
@@ -63,8 +50,9 @@ public class Inventory : MonoBehaviour
 			}
 		}
 	}
-
-	public bool Enter (string itemName) {
+	*/
+	
+	public bool AddItem (string itemName) {
 		Portable temp = Resources.Load<Portable>("Items/" + itemName);
 		if(temp == null){
 			return false;
@@ -77,7 +65,7 @@ public class Inventory : MonoBehaviour
 		return true;
 	}
 
-	public bool Exit (string itemName) {
+	public bool RemoveItem (string itemName) {
 		Portable temp = storage.Find(i => i.name == itemName);
 		Debug.Log(temp);
 		if(temp == null){
