@@ -8,10 +8,10 @@ public class SoundPlayer : MonoBehaviour {
 	public float musicVolume = 1f;
 	
 	void Start () {
-		MessageKit<PlayerEvents>.addObserver(MsgType.PlayerAction, PlayPlayerSFX);
+		MessageKit<EPlayerEvents>.addObserver(MsgType.PlayerAction, PlayPlayerSFX);
 	}
 
-	void PlayPlayerSFX (PlayerEvents action) {
+	void PlayPlayerSFX (EPlayerEvents action) {
 		audio.PlayOneShot(Resources.Load<AudioClip>(action.ToString()), sfxVolume);
 	}
 }

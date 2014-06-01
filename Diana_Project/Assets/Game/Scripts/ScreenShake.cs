@@ -21,18 +21,18 @@ public class ScreenShake : MonoBehaviour {
 
 	void Start () {
 		//MessageKit<ShakeInfo>.addObserver(Mensagens.Shake, Shake);
-		MessageKit<PlayerEvents>.addObserver(MsgType.PlayerAction, PlayerShakes);
+		MessageKit<EPlayerEvents>.addObserver(MsgType.PlayerAction, PlayerShakes);
 	}
 
-	void PlayerShakes (PlayerEvents action) {
+	void PlayerShakes (EPlayerEvents action) {
 		print (action.ToString());
 		float strength, duration = 0;
 		switch (action) {
-		case PlayerEvents.Die :
+		case EPlayerEvents.Die :
 			strength = strong;
 			duration = longer;
 			break;
-		case PlayerEvents.FallToGround :
+		case EPlayerEvents.FallToGround :
 			strength = weak;
 			duration = quick;
 			break;
