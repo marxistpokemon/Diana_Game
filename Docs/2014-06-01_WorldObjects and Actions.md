@@ -7,3 +7,6 @@ This is a component which extends from `MonoBehavior`. This abstract class takes
 #### `abstract class Action`
 
 Model for a class which brings together all the requirements for a player's action, as well as the proper bindings to its execution. All classes which define a behavior for interacting with a world object must extend `Action`.
+
+#### `singleton Inventory`
+

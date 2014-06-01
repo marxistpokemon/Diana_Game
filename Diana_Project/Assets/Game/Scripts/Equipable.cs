@@ -10,9 +10,14 @@ public class Equipable : ItemProperty
 	public bool isHandEquipment;
 	
 	public static bool Equip (string itemName, Slot slot) {
-		if (Resources.Load<Equipable>("Items/" + itemName) == null) {
-			return false;
+		Portable tempP = Inventory.i.storage.Find(t => t.name == itemName );
+		if(tempP == null) {
+			Equipable tempE = Resources.Load<Equipable>("Items/" + itemName);
+			if (tempE == null) {
+				return false;
+			}
 		}
+		Inventory.i.Exit(itemName);
 		MessageKit.post(MsgType.EquipedChanged);
 		if(slot.item != null) { // there was an item before
 			Equipable.Unequip(slot);
@@ -26,7 +31,9 @@ public class Equipable : ItemProperty
 	
 	public static bool Unequip (Slot slot) {
 		MessageKit.post(MsgType.EquipedChanged);
-		Destroy(slot.item.gameObject);
+		if(Inventory.i.Enter(slot.item.name)){
+			Destroy(slot.item.gameObject);
+		}
 		return true;
 	}
 }
