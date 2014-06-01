@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 public class WorldInteraction : MonoBehaviour {
 
+
 	public List<Item> contextItems;
 
 	void OnTriggerEnter (Collider other) {
 		if(other.CompareTag("Item")){
-			print ("enter");
 			if(contextItems.FindIndex(i => i == other.GetComponent<Item>()) < 0) {
 				contextItems.Add(other.GetComponent<Item>());
 			}
@@ -17,10 +17,15 @@ public class WorldInteraction : MonoBehaviour {
 
 	void OnTriggerExit (Collider other) {
 		if(other.CompareTag("Item")){
-			print ("exit");
 			if(contextItems.FindIndex(i => i == other.GetComponent<Item>()) >= 0) {
 				contextItems.Remove(other.GetComponent<Item>());
 			}
+		}
+	}
+
+	void Update () {
+		if(Input.GetKeyDown(KeyCode.Return)){
+			OpenInteractionMenu();
 		}
 	}
 }
