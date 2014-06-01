@@ -1,7 +1,21 @@
 using UnityEngine;
 using System.Collections;
 
-public enum PlayerAction {
+public enum EEquipSlots {
+	Body,
+	RightHand,
+	LeftHand
+}
+
+public enum EItemProperty {
+	Equipable,
+	Portable,
+	Flamable,
+	Vulnerable,
+	Ignitable
+}
+
+public enum EPlayerEvents {
 	Jump,
 	Die,
 	Shoot,
@@ -9,7 +23,7 @@ public enum PlayerAction {
 	Bump
 }
 
-public enum Navigation {
+public enum ENavigation {
 	LeaveChunk
 }
 

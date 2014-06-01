@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Prime31.MessageKit;
 
@@ -21,18 +21,18 @@ public class ScreenShake : MonoBehaviour {
 
 	void Start () {
 		//MessageKit<ShakeInfo>.addObserver(Mensagens.Shake, Shake);
-		MessageKit<PlayerAction>.addObserver(MsgType.PlayerAction, PlayerShakes);
+		MessageKit<EPlayerEvents>.addObserver(MsgType.PlayerAction, PlayerShakes);
 	}
 
-	void PlayerShakes (PlayerAction action) {
+	void PlayerShakes (EPlayerEvents action) {
 		print (action.ToString());
 		float strength, duration = 0;
 		switch (action) {
-		case PlayerAction.Die :
+		case EPlayerEvents.Die :
 			strength = strong;
 			duration = longer;
 			break;
-		case PlayerAction.FallToGround :
+		case EPlayerEvents.FallToGround :
 			strength = weak;
 			duration = quick;
 			break;
