@@ -10,3 +10,4 @@ Model for a class which brings together all the requirements for a player's acti
 
 #### `singleton Inventory`
 
+Controls the equipment slots, as well as a storage list where any item with the `Portable` component can be stored. Also handles weights and capacity.
