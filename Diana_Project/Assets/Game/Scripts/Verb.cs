@@ -17,7 +17,22 @@ public class Verb
 		targetReqs.AddRange(tReqs);
 	}
 
-	public virtual bool Execute (Transform target) {
-		return false;
+	public virtual void Do (Transform target) {}
+
+	public bool Execute (Transform target) {
+		if(!CheckTargetReqs(target)) {
+			return false;
+		}
+		Do(target);
+		return true;
+	}
+
+	public bool CheckTargetReqs (Transform target) {
+		foreach (var tReq in targetReqs) {
+			if(target.GetComponent(tReq) == null) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

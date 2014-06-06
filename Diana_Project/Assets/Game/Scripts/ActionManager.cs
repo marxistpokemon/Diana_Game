@@ -17,7 +17,7 @@ public class ActionManager : MonoBehaviour
 	void Update ()
 	{
 		if(Input.GetKeyDown(KeyCode.R)) {
-			verbs[0].Execute(null);
+			Debug.Log(verbs[0].Execute(ChunkManager.i.player.transform));
 		}
 	}
 }

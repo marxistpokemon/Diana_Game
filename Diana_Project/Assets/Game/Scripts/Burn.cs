@@ -8,9 +8,8 @@ public class Burn : Verb
 		name = "Burn";
 	}
 
-	public override bool Execute (Transform target){
-		Debug.Log(targetReqs[0]);
-		return false;
+	public override void Do (Transform target){
+		Debug.Log("destroy");
 	}
 }
 
