@@ -30,7 +30,7 @@ public class Inventory : MonoBehaviour
 		AddItem("Axe");
 	}
 
-	/*
+
 	void Update () { // test values
 		if(Input.GetKeyDown(KeyCode.E)) {
 			if(slots[(int)EEquipSlots.RightHand].item != null){
@@ -50,7 +50,6 @@ public class Inventory : MonoBehaviour
 			}
 		}
 	}
-	*/
 	
 	public bool AddItem (string itemName) {
 		Portable temp = Resources.Load<Portable>("Items/" + itemName);

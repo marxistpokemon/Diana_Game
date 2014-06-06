@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WorldInteraction : MonoBehaviour {
-
-
+	
 	public List<Item> contextItems;
 
 	void OnTriggerEnter (Collider other) {
@@ -25,7 +24,7 @@ public class WorldInteraction : MonoBehaviour {
 
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Return)){
-			OpenInteractionMenu();
+			// OpenInteractionMenu();
 		}
 	}
 }

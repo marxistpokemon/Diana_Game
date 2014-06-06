@@ -18,7 +18,7 @@ public class Equipable : ItemProperty
 			}
 		}
 		Inventory.i.RemoveItem(itemName);
-		MessageKit.post(MsgType.EquipedChanged);
+		MessageKit.post(MsgType.Equip);
 		if(slot.item != null) { // there was an item before
 			Equipable.Unequip(slot);
 		}
@@ -30,7 +30,7 @@ public class Equipable : ItemProperty
 	}
 	
 	public static bool Unequip (Slot slot) {
-		MessageKit.post(MsgType.EquipedChanged);
+		MessageKit.post(MsgType.Unequip);
 		if(Inventory.i.AddItem(slot.item.name)){
 			Destroy(slot.item.gameObject);
 		}
