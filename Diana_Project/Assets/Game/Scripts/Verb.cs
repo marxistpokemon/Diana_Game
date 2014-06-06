@@ -17,13 +17,13 @@ public class Verb
 		targetReqs.AddRange(tReqs);
 	}
 
-	public virtual void Do (Transform target) {}
+	public virtual void Do (Transform actor, Transform target) {}
 
-	public bool Execute (Transform target) {
+	public bool Execute (Transform actor, Transform target) {
 		if(!CheckTargetReqs(target)) {
 			return false;
 		}
-		Do(target);
+		Do(actor, target);
 		return true;
 	}
 

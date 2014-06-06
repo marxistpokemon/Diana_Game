@@ -8,7 +8,7 @@ public class Burn : Verb
 		name = "Burn";
 	}
 
-	public override void Do (Transform target){
+	public override void Do (Transform actor, Transform target){
 		Debug.Log("destroy");
 	}
 }
