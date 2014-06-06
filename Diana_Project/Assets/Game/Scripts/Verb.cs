@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 [System.Serializable]
-public abstract class Verb : ScriptableObject
+public class Verb
 {
 	public string name;
 	public bool available;
@@ -17,5 +17,7 @@ public abstract class Verb : ScriptableObject
 		targetReqs.AddRange(tReqs);
 	}
 
-	public abstract bool Execute (Transform target);
+	public virtual bool Execute (Transform target) {
+		return false;
+	}
 }
