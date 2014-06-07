@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class Verb
 {
 	public string name;
-	public bool available;
 	public List<string> actorReqs;
 	public List<string> targetReqs;
 
@@ -20,10 +19,20 @@ public class Verb
 	public virtual void Do (Transform actor, Transform target) {}
 
 	public bool Execute (Transform actor, Transform target) {
-		if(!CheckTargetReqs(target)) {
+
+		if( (target != null && !CheckTargetReqs(target)) || (actor != null && !CheckActorReqs(actor))) {
 			return false;
 		}
 		Do(actor, target);
+		return true;
+	}
+
+	public bool CheckActorReqs (Transform actor) {
+		foreach (var aReq in actorReqs) {
+			if(actor.GetComponent(aReq) == null) {
+				return false;
+			}
+		}
 		return true;
 	}
 

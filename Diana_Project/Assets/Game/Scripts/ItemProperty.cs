@@ -6,3 +6,6 @@ public abstract class ItemProperty : MonoBehaviour
 {
 }
 
+
+
+
